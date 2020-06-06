@@ -2,6 +2,7 @@
 import { Router, Request, Response } from 'express';
 import Server from '../class/server';
 import { usuarioConectados } from '../sockets/socket';
+import * as mysql from '../database/sql';
 
 //exportamos la constante router
 export const router  = Router();
@@ -93,5 +94,19 @@ router.get('/usuarios/detalle', (req: Request, res: Response) => {
     res.json({
         ok: true,
         clientes: usuarioConectados.getLista()
+    });
+});
+
+// 
+router.post('/locales', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM LOCAL`;
+                 
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
     });
 });

@@ -2,11 +2,19 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 // archivo destinado a crear los api Resfull
 const express_1 = require("express");
 const server_1 = __importDefault(require("../class/server"));
 const socket_1 = require("../sockets/socket");
+const mysql = __importStar(require("../database/sql"));
 //exportamos la constante router
 exports.router = express_1.Router();
 exports.router.get('/bienvenida', (req, res) => {
@@ -80,5 +88,16 @@ exports.router.get('/usuarios/detalle', (req, res) => {
     res.json({
         ok: true,
         clientes: socket_1.usuarioConectados.getLista()
+    });
+});
+// 
+exports.router.post('/locales', (req, res) => {
+    let consulta = `SELECT * FROM LOCAL`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
     });
 });
