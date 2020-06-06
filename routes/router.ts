@@ -98,10 +98,10 @@ router.get('/usuarios/detalle', (req: Request, res: Response) => {
 });
 
 // 
-router.post('/locales', (req: Request, res: Response) => {
+router.get('/locales', (req: Request, res: Response) => {
     
     let consulta = `SELECT * FROM LOCAL`;
-                 
+
     // consulta estructurada con promesas
     mysql.query(consulta).then( (data: any) => {
         // console.log(data);

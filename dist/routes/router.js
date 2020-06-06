@@ -91,7 +91,7 @@ exports.router.get('/usuarios/detalle', (req, res) => {
     });
 });
 // 
-exports.router.post('/locales', (req, res) => {
+exports.router.get('/locales', (req, res) => {
     let consulta = `SELECT * FROM LOCAL`;
     // consulta estructurada con promesas
     mysql.query(consulta).then((data) => {
