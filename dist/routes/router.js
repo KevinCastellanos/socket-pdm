@@ -101,3 +101,43 @@ exports.router.get('/locales', (req, res) => {
         res.status(500).json({ err });
     });
 });
+exports.router.get('/empleado-ues', (req, res) => {
+    let consulta = `SELECT * FROM EMPLEADOUES`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+});
+exports.router.get('/repartidor', (req, res) => {
+    let consulta = `SELECT * FROM REPARTIDOR`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+});
+exports.router.get('/detalle-producto-pedido', (req, res) => {
+    let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+});
+exports.router.get('/pedido', (req, res) => {
+    let consulta = `SELECT * FROM PEDIDO`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+});

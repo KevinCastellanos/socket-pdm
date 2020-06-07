@@ -110,3 +110,56 @@ router.get('/locales', (req: Request, res: Response) => {
         res.status(500).json({ err });
     });
 });
+
+router.get('/empleado-ues', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM EMPLEADOUES`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+});
+
+router.get('/repartidor', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM REPARTIDOR`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+});
+
+router.get('/detalle-producto-pedido', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+});
+
+router.get('/pedido', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM PEDIDO`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+});
+
