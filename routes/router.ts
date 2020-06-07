@@ -163,3 +163,32 @@ router.get('/pedido', (req: Request, res: Response) => {
     });
 });
 
+router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
+    
+    let query = `INSERT INTO EMPLEADOUES (IDTRABAJADOR, IDLOCAL, IDUBICACION, IDFACULTAD, NOMTRABAJADOR, APETRABAJADOR, TELTRABAJADOR)
+                VALUES ('${req.body.idTrabajador}',
+                        '${req.body.Idlocal}',
+                        '${req.body.idUbicacion}',
+                        '${req.body.idFacultad}', 
+                        '${req.body.NombreTRabajador}',
+                        '${req.body.Apellido}',
+                        '${req.body.tel}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        // console.log(data);
+        const result = {
+            respuesta: 1
+        }
+        res.json(result);
+
+    }).catch( (err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        }
+
+        res.status(500).json(result);
+    });
+});
+
