@@ -142,14 +142,16 @@ exports.router.get('/detalle-producto-pedido', (req, res) => {
     });
 });
 exports.router.post('/detalle-producto-pedido', (req, res) => {
-    let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO WHERE IDDETALLE = ${req.body.idDetalle}`;
+    /*let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO WHERE IDDETALLE = ${req.body.idDetalle}`;
+
     // consulta estructurada con promesas
-    mysql.query(consulta).then((data) => {
+    mysql.query(consulta).then( (data: any) => {
         // console.log(data);
         res.json(data[0]);
-    }).catch((err) => {
+    }).catch( (err) => {
         res.status(500).json({ err });
-    });
+    });*/
+    res.json({ mensaje: 'probando api detalle producto' });
 });
 exports.router.get('/pedido', (req, res) => {
     let consulta = `SELECT * FROM PEDIDO`;

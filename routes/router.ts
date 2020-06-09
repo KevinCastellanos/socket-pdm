@@ -165,7 +165,7 @@ router.get('/detalle-producto-pedido', (req: Request, res: Response) => {
 
 router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
     
-    let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO WHERE IDDETALLE = ${req.body.idDetalle}`;
+    /*let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO WHERE IDDETALLE = ${req.body.idDetalle}`;
 
     // consulta estructurada con promesas
     mysql.query(consulta).then( (data: any) => {
@@ -173,7 +173,9 @@ router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
         res.json(data[0]);
     }).catch( (err) => {
         res.status(500).json({ err });
-    });
+    });*/
+
+    res.json({mensaje: 'probando api detalle producto'});
 });
 
 router.get('/pedido', (req: Request, res: Response) => {
