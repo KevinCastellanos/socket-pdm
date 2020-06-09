@@ -166,3 +166,58 @@ exports.router.post('/registrar-empleado-ues', (req, res) => {
         res.status(500).json(result);
     });
 });
+exports.router.post('/registrar-repartidor', (req, res) => {
+    let query = `INSERT INTO EMPLEADOUES (IDTRABAJADOR, IDLOCAL, IDUBICACION, IDFACULTAD, NOMTRABAJADOR, APETRABAJADOR, TELTRABAJADOR)
+                VALUES ('${req.body.idTrabajador}',
+                        '${req.body.Idlocal}',
+                        '${req.body.idUbicacion}',
+                        '${req.body.idFacultad}', 
+                        '${req.body.NombreTRabajador}',
+                        '${req.body.Apellido}',
+                        '${req.body.tel}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        // console.log(data);
+        const result = {
+            respuesta: 1
+        };
+        res.json(result);
+    }).catch((err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        };
+        res.status(500).json(result);
+    });
+});
+exports.router.post('/actualizar-repartidor', (req, res) => {
+    const queryUpdate = `UPDATE REPARTIDOR
+                        SET
+                        NOMREPARTIDOR='${req.body.Nomrepartidor}', 
+                        APEREPARTIDOR='${req.body.Aperepartidor}', 
+                        TELREPARTIDOR='${req.body.Telrepartidor}'
+                        WHERE IDREPARTIDOR= '${req.body.Idrepartidor}'`;
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then((data) => {
+        if (data.affectedRows !== 0) {
+            const result = {
+                respuesta: 1
+            };
+            res.json(result);
+        }
+        else {
+            const result = {
+                respuesta: 0
+            };
+            res.json(result);
+        }
+        console.log(data);
+    }).catch((err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        };
+        res.status(500).json(result);
+    });
+});
