@@ -141,6 +141,16 @@ exports.router.get('/detalle-producto-pedido', (req, res) => {
         res.status(500).json({ err });
     });
 });
+exports.router.post('/detalle-producto-pedido', (req, res) => {
+    let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO WHERE IDDETALLE = ${req.body.idDetalle}`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data[0]);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+});
 exports.router.get('/pedido', (req, res) => {
     let consulta = `SELECT * FROM PEDIDO`;
     // consulta estructurada con promesas
