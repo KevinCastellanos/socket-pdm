@@ -124,6 +124,19 @@ router.get('/empleado-ues', (req: Request, res: Response) => {
     });
 });
 
+router.post('/obtener-empleado', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM EMPLEADOUES WHERE IDTRABAJADOR='${req.body.Idtrabajador}'`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data[0]);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+});
+
 router.get('/repartidor', (req: Request, res: Response) => {
     
     let consulta = `SELECT * FROM REPARTIDOR`;
