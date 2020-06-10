@@ -296,7 +296,7 @@ router.post('/login', (req: Request, res: Response) => {
     // console.log(req.body);
     console.log(req.query);
     let consulta = `SELECT * 
-                    FROM DETALLEPRODUCTOPEDIDO 
+                    FROM USUARIO 
                     WHERE NOMUSUARIO = '${req.query.usuario}'
                     AND CLAVE = '${req.query.password}';`;
 
