@@ -143,7 +143,8 @@ exports.router.get('/detalle-producto-pedido', (req, res) => {
 });
 exports.router.post('/detalle-producto-pedido', (req, res) => {
     console.log('consulto api detalle producto');
-    console.log(req);
+    console.log(req.body);
+    console.log(req.query);
     let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO WHERE IDDETALLE = ${req.body.idDetalle}`;
     // consulta estructurada con promesas
     mysql.query(consulta).then((data) => {
