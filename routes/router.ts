@@ -165,6 +165,7 @@ router.get('/detalle-producto-pedido', (req: Request, res: Response) => {
 
 router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
     console.log('consulto api detalle producto');
+    console.log(req);
     let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO WHERE IDDETALLE = ${req.body.idDetalle}`;
 
     // consulta estructurada con promesas
