@@ -3,6 +3,7 @@ import { Router, Request, Response } from 'express';
 import Server from '../class/server';
 import { usuarioConectados } from '../sockets/socket';
 import * as mysql from '../database/sql';
+import { json } from 'body-parser';
 
 //exportamos la constante router
 export const router  = Router();
@@ -196,7 +197,7 @@ router.get('/pedido', (req: Request, res: Response) => {
 router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
     
     let query = `INSERT INTO EMPLEADOUES (IDTRABAJADOR, IDLOCAL, IDUBICACION, IDFACULTAD, NOMTRABAJADOR, APETRABAJADOR, TELTRABAJADOR)
-                VALUES ('${req.query.idTrabajador}',
+                        VALUES ('${req.query.idTrabajador}',
                         '${req.query.IdLocal}',
                         '${req.query.idUbicacion}',
                         '${req.query.idFacultad}', 
@@ -206,11 +207,13 @@ router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
     // console.log(query);                
     // consulta estructurada con promesas
     mysql.query(query).then( (data: any) => {
-        // console.log(data);
-        const result = {
-            respuesta: 1
+        console.log(data);
+
+        if(data[0] === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
         }
-        res.json(result);
 
     }).catch( (err) => {
         const result = {
@@ -218,7 +221,7 @@ router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
             datos: err
         }
 
-        res.status(500).json(result);
+        res.status(500).json(0);
     });
 });
 

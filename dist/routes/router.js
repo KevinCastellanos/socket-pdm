@@ -167,7 +167,7 @@ exports.router.get('/pedido', (req, res) => {
 });
 exports.router.post('/registrar-empleado-ues', (req, res) => {
     let query = `INSERT INTO EMPLEADOUES (IDTRABAJADOR, IDLOCAL, IDUBICACION, IDFACULTAD, NOMTRABAJADOR, APETRABAJADOR, TELTRABAJADOR)
-                VALUES ('${req.query.idTrabajador}',
+                        VALUES ('${req.query.idTrabajador}',
                         '${req.query.IdLocal}',
                         '${req.query.idUbicacion}',
                         '${req.query.idFacultad}', 
@@ -177,17 +177,19 @@ exports.router.post('/registrar-empleado-ues', (req, res) => {
     // console.log(query);                
     // consulta estructurada con promesas
     mysql.query(query).then((data) => {
-        // console.log(data);
-        const result = {
-            respuesta: 1
-        };
-        res.json(result);
+        console.log(data);
+        if (data[0] === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
     }).catch((err) => {
         const result = {
             respuesta: 0,
             datos: err
         };
-        res.status(500).json(result);
+        res.status(500).json(0);
     });
 });
 exports.router.post('/registrar-repartidor', (req, res) => {
