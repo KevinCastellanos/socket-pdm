@@ -141,7 +141,8 @@ router.get('/detalle-producto-pedido', (req: Request, res: Response) => {
 
 
 
-// ********* detalle producto pedido ********                           CRUD
+// ********* detalle producto pedido ********
+// LEER
 router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
     console.log('consulto api detalle producto');
     console.log(req.body);
@@ -159,6 +160,7 @@ router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
     // res.json({mensaje: 'probando api detalle producto'});
 });
 
+// AGREGAR
 router.post('/registrar-detalle-producto-pedido', (req: Request, res: Response) => {
     console.log('entra a registrar detalle pedido');
     let query = `INSERT INTO DETALLEPRODUCTOPEDIDO (CANTIDADPEDIDO, IDDETALLE, IDPEDIDO, IDPRODUCTO)
@@ -184,6 +186,7 @@ router.post('/registrar-detalle-producto-pedido', (req: Request, res: Response) 
     });
 });
 
+// ELIMINAR
 router.post('/eliminar-detalle-producto-pedido', (req: Request, res: Response) => {
     console.log('entra a registrar detalle pedido');
     
@@ -206,6 +209,45 @@ router.post('/eliminar-detalle-producto-pedido', (req: Request, res: Response) =
     });
 });
 
+// ACTUALIZAR
+router.post('/actualizar-detalle-producto-pedido', (req: Request, res: Response) => {
+    
+    const queryUpdate =  `UPDATE DETALLEPRODUCTOPEDIDO
+                        SET
+                        CANTIDADPEDIDO='${req.query.CANTIDADPEDIDO}', 
+                        IDPEDIDO='${req.query.IDPEDIDO}', 
+                        IDPRODUCTO='${req.query.IDPRODUCTO}'
+                        WHERE IDDETALLE= '${req.query.IDDETALLE}'`; 
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then( (data: any) => {
+
+        if(data.affectedRows !== 0 ) {
+            const result = {
+                respuesta: 1
+            }
+            
+            res.json(1);
+        } else {
+            const result = {
+                respuesta: 0
+            }
+            
+            res.json(0);
+
+        }
+        console.log(data);
+        
+        
+
+    }).catch( (err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        }
+
+        res.status(500).json(result);
+    });
+});
 
 
 // ********* pedido ********                                            CRUD
