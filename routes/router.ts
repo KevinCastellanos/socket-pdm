@@ -207,9 +207,10 @@ router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
     // console.log(query);                
     // consulta estructurada con promesas
     mysql.query(query).then( (data: any) => {
+        
         console.log(data);
 
-        if(data[0] === 1) {
+        if(data.affectedRows === 1) {
             res.json(1);
         } else {
             res.json(0);

@@ -178,7 +178,7 @@ exports.router.post('/registrar-empleado-ues', (req, res) => {
     // consulta estructurada con promesas
     mysql.query(query).then((data) => {
         console.log(data);
-        if (data[0] === 1) {
+        if (data.affectedRows === 1) {
             res.json(1);
         }
         else {
