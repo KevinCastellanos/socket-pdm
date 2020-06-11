@@ -158,6 +158,24 @@ exports.router.post('/registrar-detalle-producto-pedido', (req, res) => {
         res.status(500).json(0);
     });
 });
+exports.router.post('/eliminar-detalle-producto-pedido', (req, res) => {
+    console.log('entra a registrar detalle pedido');
+    let query = `DELETE FROM DETALLEPRODUCTOPEDIDO WHERE IDDETALLE = '${req.query.IDDETALLE}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
 // ********* pedido ********
 exports.router.get('/pedido', (req, res) => {
     let consulta = `SELECT * FROM PEDIDO`;
