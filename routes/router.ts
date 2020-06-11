@@ -158,7 +158,7 @@ router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
 });
 
 router.post('/registrar-detalle-producto-pedido', (req: Request, res: Response) => {
-    
+    console.log('entra a registrar detalle pedido');
     let query = `INSERT INTO DETALLEPRODUCTOPEDIDO (CANTIDADPEDIDO, IDDETALLE, IDPEDIDO, IDPRODUCTO)
                         VALUES ('${req.query.CANTIDADPEDIDO}',
                         '${req.query.IDDETALLE}',
@@ -168,7 +168,7 @@ router.post('/registrar-detalle-producto-pedido', (req: Request, res: Response) 
     // consulta estructurada con promesas
     mysql.query(query).then( (data: any) => {
         
-        console.log(data);
+        console.log('hizo la consulta',data);
 
         if(data.affectedRows === 1) {
             res.json(1);
@@ -177,6 +177,7 @@ router.post('/registrar-detalle-producto-pedido', (req: Request, res: Response) 
         }
 
     }).catch( (err) => {
+        console.log(err);
         res.status(500).json(0);
     });
 });

@@ -137,6 +137,7 @@ exports.router.post('/detalle-producto-pedido', (req, res) => {
     // res.json({mensaje: 'probando api detalle producto'});
 });
 exports.router.post('/registrar-detalle-producto-pedido', (req, res) => {
+    console.log('entra a registrar detalle pedido');
     let query = `INSERT INTO DETALLEPRODUCTOPEDIDO (CANTIDADPEDIDO, IDDETALLE, IDPEDIDO, IDPRODUCTO)
                         VALUES ('${req.query.CANTIDADPEDIDO}',
                         '${req.query.IDDETALLE}',
@@ -145,7 +146,7 @@ exports.router.post('/registrar-detalle-producto-pedido', (req, res) => {
     // console.log(query);                
     // consulta estructurada con promesas
     mysql.query(query).then((data) => {
-        console.log(data);
+        console.log('hizo la consulta', data);
         if (data.affectedRows === 1) {
             res.json(1);
         }
@@ -153,6 +154,7 @@ exports.router.post('/registrar-detalle-producto-pedido', (req, res) => {
             res.json(0);
         }
     }).catch((err) => {
+        console.log(err);
         res.status(500).json(0);
     });
 });
