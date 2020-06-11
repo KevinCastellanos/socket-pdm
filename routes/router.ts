@@ -181,6 +181,7 @@ router.post('/registrar-detalle-producto-pedido', (req: Request, res: Response) 
     });
 });
 
+// ********* pedido ********
 router.get('/pedido', (req: Request, res: Response) => {
     
     let consulta = `SELECT * FROM PEDIDO`;
@@ -321,7 +322,6 @@ router.post('/actualizar-repartidor', (req: Request, res: Response) => {
     });
 });
 
-
 router.post('/login', (req: Request, res: Response) => {
     console.log('consulto api detalle producto');
     // console.log(req.body);
@@ -334,7 +334,7 @@ router.post('/login', (req: Request, res: Response) => {
     // consulta estructurada con promesas
     mysql.query(consulta).then( (data: any) => {
         // console.log(data);
-        res.json(data);
+        res.json(data[0]);
     }).catch( (err) => {
         res.status(500).json({ err });
     });

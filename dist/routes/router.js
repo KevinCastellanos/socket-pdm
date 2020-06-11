@@ -156,6 +156,7 @@ exports.router.post('/registrar-detalle-producto-pedido', (req, res) => {
         res.status(500).json(0);
     });
 });
+// ********* pedido ********
 exports.router.get('/pedido', (req, res) => {
     let consulta = `SELECT * FROM PEDIDO`;
     // consulta estructurada con promesas
@@ -280,7 +281,7 @@ exports.router.post('/login', (req, res) => {
     // consulta estructurada con promesas
     mysql.query(consulta).then((data) => {
         // console.log(data);
-        res.json(data);
+        res.json(data[0]);
     }).catch((err) => {
         res.status(500).json({ err });
     });
