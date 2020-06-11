@@ -101,26 +101,6 @@ exports.router.get('/locales', (req, res) => {
         res.status(500).json({ err });
     });
 });
-exports.router.get('/empleado-ues', (req, res) => {
-    let consulta = `SELECT * FROM EMPLEADOUES`;
-    // consulta estructurada con promesas
-    mysql.query(consulta).then((data) => {
-        // console.log(data);
-        res.json(data);
-    }).catch((err) => {
-        res.status(500).json({ err });
-    });
-});
-exports.router.post('/obtener-empleado', (req, res) => {
-    let consulta = `SELECT * FROM EMPLEADOUES WHERE IDTRABAJADOR='${req.body.Idtrabajador}'`;
-    // consulta estructurada con promesas
-    mysql.query(consulta).then((data) => {
-        // console.log(data);
-        res.json(data[0]);
-    }).catch((err) => {
-        res.status(500).json({ err });
-    });
-});
 exports.router.get('/repartidor', (req, res) => {
     let consulta = `SELECT * FROM REPARTIDOR`;
     // consulta estructurada con promesas
@@ -165,6 +145,7 @@ exports.router.get('/pedido', (req, res) => {
         res.status(500).json({ err });
     });
 });
+// ********* empleado ********
 exports.router.post('/registrar-empleado-ues', (req, res) => {
     let query = `INSERT INTO EMPLEADOUES (IDTRABAJADOR, IDLOCAL, IDUBICACION, IDFACULTAD, NOMTRABAJADOR, APETRABAJADOR, TELTRABAJADOR)
                         VALUES ('${req.query.idTrabajador}',
@@ -190,6 +171,26 @@ exports.router.post('/registrar-empleado-ues', (req, res) => {
             datos: err
         };
         res.status(500).json(0);
+    });
+});
+exports.router.post('/obtener-empleado', (req, res) => {
+    let consulta = `SELECT * FROM EMPLEADOUES WHERE IDTRABAJADOR='${req.query.Idtrabajador}'`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data[0]);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+});
+exports.router.get('/empleado-ues', (req, res) => {
+    let consulta = `SELECT * FROM EMPLEADOUES`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
     });
 });
 exports.router.post('/registrar-repartidor', (req, res) => {

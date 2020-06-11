@@ -112,31 +112,6 @@ router.get('/locales', (req: Request, res: Response) => {
     });
 });
 
-router.get('/empleado-ues', (req: Request, res: Response) => {
-    
-    let consulta = `SELECT * FROM EMPLEADOUES`;
-
-    // consulta estructurada con promesas
-    mysql.query(consulta).then( (data: any) => {
-        // console.log(data);
-        res.json(data);
-    }).catch( (err) => {
-        res.status(500).json({ err });
-    });
-});
-
-router.post('/obtener-empleado', (req: Request, res: Response) => {
-    
-    let consulta = `SELECT * FROM EMPLEADOUES WHERE IDTRABAJADOR='${req.body.Idtrabajador}'`;
-
-    // consulta estructurada con promesas
-    mysql.query(consulta).then( (data: any) => {
-        // console.log(data);
-        res.json(data[0]);
-    }).catch( (err) => {
-        res.status(500).json({ err });
-    });
-});
 
 router.get('/repartidor', (req: Request, res: Response) => {
     
@@ -194,6 +169,7 @@ router.get('/pedido', (req: Request, res: Response) => {
     });
 });
 
+// ********* empleado ********
 router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
     
     let query = `INSERT INTO EMPLEADOUES (IDTRABAJADOR, IDLOCAL, IDUBICACION, IDFACULTAD, NOMTRABAJADOR, APETRABAJADOR, TELTRABAJADOR)
@@ -223,6 +199,32 @@ router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
         }
 
         res.status(500).json(0);
+    });
+});
+
+router.post('/obtener-empleado', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM EMPLEADOUES WHERE IDTRABAJADOR='${req.query.Idtrabajador}'`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data[0]);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+});
+
+router.get('/empleado-ues', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM EMPLEADOUES`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
     });
 });
 
