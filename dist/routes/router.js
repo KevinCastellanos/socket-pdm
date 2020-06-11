@@ -121,7 +121,7 @@ exports.router.get('/detalle-producto-pedido', (req, res) => {
         res.status(500).json({ err });
     });
 });
-// ********* detalle producto pedido ********
+// ********* detalle producto pedido ********                           CRUD
 exports.router.post('/detalle-producto-pedido', (req, res) => {
     console.log('consulto api detalle producto');
     console.log(req.body);
@@ -176,7 +176,7 @@ exports.router.post('/eliminar-detalle-producto-pedido', (req, res) => {
         res.status(500).json(0);
     });
 });
-// ********* pedido ********
+// ********* pedido ********                                            CRUD
 exports.router.get('/pedido', (req, res) => {
     let consulta = `SELECT * FROM PEDIDO`;
     // consulta estructurada con promesas
@@ -302,6 +302,24 @@ exports.router.post('/login', (req, res) => {
     mysql.query(consulta).then((data) => {
         // console.log(data);
         res.json(data[0]);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+// ********* productos ********
+exports.router.post('/obtener-productos', (req, res) => {
+    console.log('consulto api detalle producto');
+    console.log(req.body);
+    console.log(req.query);
+    let consulta = `SELECT * FROM 
+                    PRODUCTO 
+                    WHERE IDLOCAL = ${req.query.idlocal}
+                    AND IDCATEGORIA = ${req.query.idcategoria}`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
     }).catch((err) => {
         res.status(500).json({ err });
     });

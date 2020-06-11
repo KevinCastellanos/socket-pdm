@@ -139,7 +139,9 @@ router.get('/detalle-producto-pedido', (req: Request, res: Response) => {
     });
 });
 
-// ********* detalle producto pedido ********
+
+
+// ********* detalle producto pedido ********                           CRUD
 router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
     console.log('consulto api detalle producto');
     console.log(req.body);
@@ -204,7 +206,9 @@ router.post('/eliminar-detalle-producto-pedido', (req: Request, res: Response) =
     });
 });
 
-// ********* pedido ********
+
+
+// ********* pedido ********                                            CRUD
 router.get('/pedido', (req: Request, res: Response) => {
     
     let consulta = `SELECT * FROM PEDIDO`;
@@ -217,6 +221,8 @@ router.get('/pedido', (req: Request, res: Response) => {
         res.status(500).json({ err });
     });
 });
+
+
 
 // ********* empleado ********
 router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
@@ -358,6 +364,28 @@ router.post('/login', (req: Request, res: Response) => {
     mysql.query(consulta).then( (data: any) => {
         // console.log(data);
         res.json(data[0]);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+
+
+// ********* productos ********
+router.post('/obtener-productos', (req: Request, res: Response) => {
+    console.log('consulto api detalle producto');
+    console.log(req.body);
+    console.log(req.query);
+    let consulta = `SELECT * FROM 
+                    PRODUCTO 
+                    WHERE IDLOCAL = ${req.query.idlocal}
+                    AND IDCATEGORIA = ${req.query.idcategoria}`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
     }).catch( (err) => {
         res.status(500).json({ err });
     });
