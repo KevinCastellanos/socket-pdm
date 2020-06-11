@@ -139,6 +139,7 @@ router.get('/detalle-producto-pedido', (req: Request, res: Response) => {
     });
 });
 
+// ********* detalle producto pedido ********
 router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
     console.log('consulto api detalle producto');
     console.log(req.body);
@@ -154,6 +155,30 @@ router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
     });
 
     // res.json({mensaje: 'probando api detalle producto'});
+});
+
+router.post('/registrar-detalle-producto-pedido', (req: Request, res: Response) => {
+    
+    let query = `INSERT INTO DETALLEPRODUCTOPEDIDO (CANTIDADPEDIDO, IDDETALLE, IDPEDIDO, IDPRODUCTO)
+                        VALUES ('${req.query.CANTIDADPEDIDO}',
+                        '${req.query.IDDETALLE}',
+                        '${req.query.IDPEDIDO}',
+                        '${req.query.IDPRODUCTO}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log(data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        res.status(500).json(0);
+    });
 });
 
 router.get('/pedido', (req: Request, res: Response) => {
