@@ -16,132 +16,8 @@ router.get('/bienvenida', (req: Request, res: Response) => {
     });
 });
 
-router.post('/mensajes', (req: Request, res: Response) => {
-    // leer la informacion que estoy recibiendo desde el cliente
-    const cuerpo = req.body.cuerpo;
-    const de = req.body.de;
 
-    const payload = {
-        cuerpo,
-        de
-    }
-
-    const server  = Server.instance;
-
-    server.io.emit('mensaje-nuevo', payload);
-
-    res.json({
-        ok: true,
-        cuerpo,
-        de
-    });
-});
-
-// nueva ruta con parametros
-router.post('/mensajes/:id', (req: Request, res: Response) => {
-    // leer la informacion que estoy recibiendo desde el cliente
-    const cuerpo = req.body.cuerpo;
-    const de = req.body.de;
-    // obtener el id
-    const id = req.params.id;
-
-    const payload = {
-        de,
-        cuerpo
-    };
-
-    // Aqui tenemos que agregar nuestro servicio rest con el servidor de sockets
-    // para que la app obtenga los mensaje en tiempo real
-    // declaramos la instancia de nuestro server
-
-    // como usa el patron singleton, es la misma instancia del servidor de sockets corriendo
-    const server = Server.instance;
-
-    // nos vamos a referir a nuesro servidor de sockets
-    // el in sirve para enviar mensaje a un cliente en una canal en paticular
-    server.io.in( id ).emit('mensaje-privado', payload);
-
-    res.json({
-        ok: true,
-        cuerpo,
-        de,
-        id
-    });
-});
-
-// Servicios para obtener todos los IDs de los usuarios
-router.get('/usuarios', (req: Request, res: Response) => {
-
-    // usamos la insancia de ioSockets para obtener los id conectados
-    const server = Server.instance;
-    server.io.clients( (err: any, clientes: string[])=> {
-        if(err) {
-            return res.json({
-                ok: false,
-                err
-            });
-        }
-
-        res.json({
-            ok: true,
-            clientes
-        });
-    });
-});
-
-// obtener usuarios y sus nombres
-router.get('/usuarios/detalle', (req: Request, res: Response) => {
-
-    res.json({
-        ok: true,
-        clientes: usuarioConectados.getLista()
-    });
-});
-
-// 
-router.get('/locales', (req: Request, res: Response) => {
-    
-    let consulta = `SELECT * FROM LOCAL`;
-
-    // consulta estructurada con promesas
-    mysql.query(consulta).then( (data: any) => {
-        // console.log(data);
-        res.json(data);
-    }).catch( (err) => {
-        res.status(500).json({ err });
-    });
-});
-
-
-router.get('/repartidor', (req: Request, res: Response) => {
-    
-    let consulta = `SELECT * FROM REPARTIDOR`;
-
-    // consulta estructurada con promesas
-    mysql.query(consulta).then( (data: any) => {
-        // console.log(data);
-        res.json(data);
-    }).catch( (err) => {
-        res.status(500).json({ err });
-    });
-});
-
-router.get('/detalle-producto-pedido', (req: Request, res: Response) => {
-    
-    let consulta = `SELECT * FROM DETALLEPRODUCTOPEDIDO`;
-
-    // consulta estructurada con promesas
-    mysql.query(consulta).then( (data: any) => {
-        // console.log(data);
-        res.json(data);
-    }).catch( (err) => {
-        res.status(500).json({ err });
-    });
-});
-
-
-
-// ********* detalle producto pedido ********
+// ********* detalle producto pedido ******** CRUD
 // LEER
 router.post('/detalle-producto-pedido', (req: Request, res: Response) => {
     console.log('consulto api detalle producto');
@@ -267,6 +143,7 @@ router.get('/pedido', (req: Request, res: Response) => {
 
 
 // ********* empleado ********
+// CREAR
 router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
     
     let query = `INSERT INTO EMPLEADOUES (IDTRABAJADOR, IDLOCAL, IDUBICACION, IDFACULTAD, NOMTRABAJADOR, APETRABAJADOR, TELTRABAJADOR)
@@ -299,6 +176,7 @@ router.post('/registrar-empleado-ues', (req: Request, res: Response) => {
     });
 });
 
+// OBTENER
 router.post('/obtener-empleado', (req: Request, res: Response) => {
     
     let consulta = `SELECT * FROM EMPLEADOUES WHERE IDTRABAJADOR='${req.query.Idtrabajador}'`;
@@ -312,6 +190,73 @@ router.post('/obtener-empleado', (req: Request, res: Response) => {
     });
 });
 
+// ELIMINAR
+router.post('/eliminar-empleado', (req: Request, res: Response) => {
+    console.log('entra a registrar detalle pedido');
+    
+    let query = `DELETE FROM EMPLEADOUES WHERE IDTRABAJADOR = '${req.query.IDTRABAJADOR}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ACTUALIZAR
+router.post('/actualizar-empleado', (req: Request, res: Response) => {
+    
+    const queryUpdate =  `UPDATE EMPLEADOUES
+                        SET
+                        IDLOCAL='${req.query.IDLOCAL}', 
+                        IDUBICACION='${req.query.IDUBICACION}', 
+                        IDFACULTAD='${req.query.IDFACULTAD}',
+                        NOMTRABAJADOR='${req.query.NOMTRABAJADOR}'
+                        APETRABAJADOR='${req.query.APETRABAJADOR}'
+                        WHERE IDTRABAJADOR= '${req.query.IDTRABAJADOR}'`; 
+ 
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then( (data: any) => {
+
+        if(data.affectedRows !== 0 ) {
+            const result = {
+                respuesta: 1
+            }
+            
+            res.json(1);
+        } else {
+            const result = {
+                respuesta: 0
+            }
+            
+            res.json(0);
+
+        }
+        console.log(data);
+        
+        
+
+    }).catch( (err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        }
+
+        res.status(500).json(result);
+    });
+});
+
+// OBTENER
 router.get('/empleado-ues', (req: Request, res: Response) => {
     
     let consulta = `SELECT * FROM EMPLEADOUES`;
@@ -325,6 +270,9 @@ router.get('/empleado-ues', (req: Request, res: Response) => {
     });
 });
 
+
+// ********* repartidor ********
+// CREAR
 router.post('/registrar-repartidor', (req: Request, res: Response) => {
     
     let query = `INSERT INTO EMPLEADOUES (IDTRABAJADOR, IDLOCAL, IDUBICACION, IDFACULTAD, NOMTRABAJADOR, APETRABAJADOR, TELTRABAJADOR)
@@ -354,6 +302,22 @@ router.post('/registrar-repartidor', (req: Request, res: Response) => {
     });
 });
 
+// LEER
+router.post('/obtener-repartidor', (req: Request, res: Response) => {
+    console.log('obtener repartidor');
+
+    let consulta = `SELECT * FROM REPARTIDOR WHERE IDREPARTIDOR = ${req.query.IDREPARTIDOR}`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+});
+
+// ACTUALIZAR
 router.post('/actualizar-repartidor', (req: Request, res: Response) => {
     
     const queryUpdate =  `UPDATE REPARTIDOR
@@ -393,6 +357,44 @@ router.post('/actualizar-repartidor', (req: Request, res: Response) => {
     });
 });
 
+// ELIMINAR
+router.post('/eliminar-repartidor', (req: Request, res: Response) => {
+    
+    console.log('eliminar repartidor');
+    
+    let query = `DELETE FROM REPARTIDOR WHERE IDREPARTIDOR = '${req.query.IDREPARTIDOR}';`;               
+    
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta', data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+router.get('/repartidor', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM REPARTIDOR`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+});
+
+// ********* login ********
 router.post('/login', (req: Request, res: Response) => {
     console.log('consulto api detalle producto');
     // console.log(req.body);
@@ -413,8 +415,38 @@ router.post('/login', (req: Request, res: Response) => {
     // res.json({mensaje: 'probando api detalle producto'});
 });
 
+// Servicios para obtener todos los IDs de los usuarios
+router.get('/usuarios', (req: Request, res: Response) => {
+
+    // usamos la insancia de ioSockets para obtener los id conectados
+    const server = Server.instance;
+    server.io.clients( (err: any, clientes: string[])=> {
+        if(err) {
+            return res.json({
+                ok: false,
+                err
+            });
+        }
+
+        res.json({
+            ok: true,
+            clientes
+        });
+    });
+});
+
+// obtener usuarios y sus nombres
+router.get('/usuarios/detalle', (req: Request, res: Response) => {
+
+    res.json({
+        ok: true,
+        clientes: usuarioConectados.getLista()
+    });
+});
+
 
 // ********* productos ********
+// LEER
 router.post('/obtener-productos', (req: Request, res: Response) => {
     console.log('consulto api detalle producto');
     console.log(req.body);
@@ -434,3 +466,435 @@ router.post('/obtener-productos', (req: Request, res: Response) => {
 
     // res.json({mensaje: 'probando api detalle producto'});
 });
+
+// AGREGAR
+router.post('/registrar-producto', (req: Request, res: Response) => {
+    console.log('entra a registrar PRODUCTO');
+    let query = `INSERT INTO PRODUCTO (IDPRODUCTO, IDLOCAL, IDCATEGORIA, NOMBREPRODUCTO, PRECIOUNITARIO, EXISTENCIA, PRO_LOCAL)
+                        VALUES ('${req.query.IDPRODUCTO}',
+                                '${req.query.IDLOCAL}',
+                                '${req.query.IDCATEGORIA}',
+                                '${req.query.NOMBREPRODUCTO}',
+                                '${req.query.PRECIOUNITARIO}',
+                                '${req.query.EXISTENCIA}',
+                                '${req.query.PRO_LOCAL}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ELIMINAR
+router.post('/eliminar-producto', (req: Request, res: Response) => {
+    console.log('entra a registrar detalle pedido');
+    
+    let query = `DELETE FROM PRODUCTO WHERE IDPRODUCTO = '${req.query.IDPRODUCTO}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ACTUALIZAR
+router.post('/actualizar-producto', (req: Request, res: Response) => {
+    
+    const queryUpdate =  `UPDATE PRODUCTO
+                        SET
+                        IDLOCAL='${req.query.IDLOCAL}', 
+                        IDCATEGORIA='${req.query.IDCATEGORIA}', 
+                        NOMBREPRODUCTO='${req.query.NOMBREPRODUCTO}',
+                        PRECIOUNITARIO='${req.query.PRECIOUNITARIO}',
+                        EXISTENCIA='${req.query.EXISTENCIA}'
+                        WHERE IDPRODUCTO= '${req.query.IDPRODUCTO}'`; 
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then( (data: any) => {
+
+        if(data.affectedRows !== 0 ) {
+            const result = {
+                respuesta: 1
+            }
+            
+            res.json(1);
+        } else {
+            const result = {
+                respuesta: 0
+            }
+            
+            res.json(0);
+
+        }
+        console.log(data);
+        
+        
+
+    }).catch( (err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        }
+
+        res.status(500).json(result);
+    });
+});
+
+// ********* encargado local ******** CRUD
+// LEER
+router.post('/obtener-encargado-local', (req: Request, res: Response) => {
+    console.log('consulto api encargado local');
+
+    let consulta = `SELECT * FROM ENCARGADOLOCAL WHERE IDENCARGADOLOCAL = ${req.query.IDENCARGADOLOCAL}`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+
+// AGREGAR
+router.post('/registrar-encargado-local', (req: Request, res: Response) => {
+    console.log('entra a registrar encargado local');
+    
+    let query = `INSERT INTO ENCARGADOLOCAL (IDENCARGADOLOCAL, NOMENCARGADOLOCAL, APEENCARGADOLOCAL, TELENCARGADO)
+                        VALUES ('${req.query.IDENCARGADOLOCAL}',
+                        '${req.query.NOMENCARGADOLOCAL}',
+                        '${req.query.APEENCARGADOLOCAL}',
+                        '${req.query.TELENCARGADO}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ELIMINAR
+router.post('/eliminar-encargado-local', (req: Request, res: Response) => {
+    console.log('entra a registrar detalle pedido');
+    
+    let query = `DELETE FROM ENCARGADOLOCAL WHERE IDENCARGADOLOCAL = '${req.query.IDENCARGADOLOCAL}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ACTUALIZAR
+router.post('/actualizar-encargado-local', (req: Request, res: Response) => {
+    
+    const queryUpdate =  `UPDATE ENCARGADOLOCAL
+                        SET
+                        NOMENCARGADOLOCAL='${req.query.NOMENCARGADOLOCAL}', 
+                        APEENCARGADOLOCAL='${req.query.APEENCARGADOLOCAL}', 
+                        TELENCARGADO='${req.query.TELENCARGADO}'
+                        WHERE IDENCARGADOLOCAL= '${req.query.IDENCARGADOLOCAL}'`; 
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then( (data: any) => {
+
+        if(data.affectedRows !== 0 ) {
+            const result = {
+                respuesta: 1
+            }
+            
+            res.json(1);
+        } else {
+            const result = {
+                respuesta: 0
+            }
+            
+            res.json(0);
+
+        }
+        console.log(data);
+        
+        
+
+    }).catch( (err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        }
+
+        res.status(500).json(result);
+    });
+});
+
+// ********* local ******** CRUD
+// LEER
+router.post('/obtener-local', (req: Request, res: Response) => {
+    console.log('consulto api local');
+
+    let consulta = `SELECT * FROM LOCAL WHERE IDLOCAL = ${req.query.IDLOCAL}`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+
+// AGREGAR
+router.post('/registrar-local', (req: Request, res: Response) => {
+    console.log('entra a registrar  local');
+    
+    let query = `INSERT INTO LOCAL (IDLOCAL, IDENCARGADOLOCAL, NOMBRELOCAL)
+                        VALUES ('${req.query.IDLOCAL}',
+                        '${req.query.IDENCARGADOLOCAL}',
+                        '${req.query.NOMBRELOCAL}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ACTUALIZAR
+router.post('/actualizar-local', (req: Request, res: Response) => {
+    
+    const queryUpdate =  `UPDATE LOCAL
+                        SET
+                        IDENCARGADOLOCAL='${req.query.IDENCARGADOLOCAL}', 
+                        NOMBRELOCAL='${req.query.NOMBRELOCAL}'
+                        WHERE IDLOCAL= '${req.query.IDLOCAL}'`; 
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then( (data: any) => {
+
+        if(data.affectedRows !== 0 ) {
+            const result = {
+                respuesta: 1
+            }
+            
+            res.json(1);
+        } else {
+            const result = {
+                respuesta: 0
+            }
+            
+            res.json(0);
+
+        }
+        console.log(data);
+        
+        
+
+    }).catch( (err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        }
+
+        res.status(500).json(result);
+    });
+});
+
+// GET OBTENER
+router.get('/locales', (req: Request, res: Response) => {
+    
+    let consulta = `SELECT * FROM LOCAL`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+});
+
+
+// ELIMINAR
+router.post('/eliminar-local', (req: Request, res: Response) => {
+    console.log('entra a registrar detalle pedido');
+    
+    let query = `DELETE FROM LOCAL WHERE IDLOCAL = '${req.query.IDLOCAL}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ********* menu ******** CRUD
+// LEER
+router.post('/obtener-menu', (req: Request, res: Response) => {
+    console.log('consulto api local');
+
+    let consulta = `SELECT * FROM MENU WHERE IDMENU = ${req.query.IDMENU}`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+
+// AGREGAR
+router.post('/registrar-menu', (req: Request, res: Response) => {
+    console.log('entra a registrar  local');
+    
+    let query = `INSERT INTO MENU (IDMENU, PRECIOMENU, FECHADESDEMENU, FECHAHASTAMENU)
+                        VALUES ('${req.query.IDMENU}',
+                        '${req.query.PRECIOMENU}',
+                        '${req.query.FECHADESDEMENU}',
+                        '${req.query.FECHAHASTAMENU}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ACTUALIZAR
+router.post('/actualizar-menu', (req: Request, res: Response) => {
+    
+    const queryUpdate =  `UPDATE MENU
+                        SET
+                        PRECIOMENU='${req.query.PRECIOMENU}', 
+                        FECHADESDEMENU='${req.query.FECHADESDEMENU}',
+                        FECHAHASTAMENU='${req.query.FECHAHASTAMENU}'
+                        WHERE IDMENU= '${req.query.IDMENU}'`; 
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then( (data: any) => {
+
+        if(data.affectedRows !== 0 ) {
+            const result = {
+                respuesta: 1
+            }
+            
+            res.json(1);
+        } else {
+            const result = {
+                respuesta: 0
+            }
+            
+            res.json(0);
+
+        }
+        console.log(data);
+        
+        
+
+    }).catch( (err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        }
+
+        res.status(500).json(result);
+    });
+});
+
+// ELIMINAR
+router.post('/eliminar-menu', (req: Request, res: Response) => {
+    console.log('entra a registrar detalle pedido');
+    
+    let query = `DELETE FROM MENU WHERE IDMENU = '${req.query.IDMENU}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
