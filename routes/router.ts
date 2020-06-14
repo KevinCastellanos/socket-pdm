@@ -769,7 +769,7 @@ router.get('/locales', (req: Request, res: Response) => {
 
 // ELIMINAR
 router.post('/eliminar-local', (req: Request, res: Response) => {
-    console.log('entra a registrar detalle pedido');
+    console.log('entra a eliminar local');
     
     let query = `DELETE FROM LOCAL WHERE IDLOCAL = '${req.query.IDLOCAL}';`;
     // console.log(query);                

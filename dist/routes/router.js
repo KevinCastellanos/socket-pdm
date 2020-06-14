@@ -630,7 +630,7 @@ exports.router.get('/locales', (req, res) => {
 });
 // ELIMINAR
 exports.router.post('/eliminar-local', (req, res) => {
-    console.log('entra a registrar detalle pedido');
+    console.log('entra a eliminar local');
     let query = `DELETE FROM LOCAL WHERE IDLOCAL = '${req.query.IDLOCAL}';`;
     // console.log(query);                
     // consulta estructurada con promesas
