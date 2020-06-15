@@ -474,7 +474,7 @@ router.post('/obtener-productos-crud', (req: Request, res: Response) => {
     console.log(req.query);
     let consulta = `SELECT * FROM 
                     PRODUCTO 
-                    WHERE IDLOCAL = ${req.query.IDPRODUCTO}`;
+                    WHERE IDPRODUCTO = ${req.query.IDPRODUCTO}`;
 
                     
     // consulta estructurada con promesas
