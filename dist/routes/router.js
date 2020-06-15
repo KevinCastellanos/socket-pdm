@@ -386,6 +386,22 @@ exports.router.post('/obtener-productos', (req, res) => {
     });
     // res.json({mensaje: 'probando api detalle producto'});
 });
+exports.router.post('/obtener-productos-crud', (req, res) => {
+    console.log('consulto api detalle producto');
+    console.log(req.body);
+    console.log(req.query);
+    let consulta = `SELECT * FROM 
+                    PRODUCTO 
+                    WHERE IDLOCAL = ${req.query.IDPRODUCTO}`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+    // res.json({mensaje: 'probando api detalle producto'});
+});
 // AGREGAR
 exports.router.post('/registrar-producto', (req, res) => {
     console.log('entra a registrar PRODUCTO');

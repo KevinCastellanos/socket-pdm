@@ -456,6 +456,26 @@ router.post('/obtener-productos', (req: Request, res: Response) => {
                     WHERE IDLOCAL = ${req.query.idlocal}
                     AND IDCATEGORIA = ${req.query.idcategoria}`;
 
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+
+router.post('/obtener-productos-crud', (req: Request, res: Response) => {
+    console.log('consulto api detalle producto');
+    console.log(req.body);
+    console.log(req.query);
+    let consulta = `SELECT * FROM 
+                    PRODUCTO 
+                    WHERE IDLOCAL = ${req.query.IDPRODUCTO}`;
+
                     
     // consulta estructurada con promesas
     mysql.query(consulta).then( (data: any) => {
