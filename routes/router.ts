@@ -453,9 +453,10 @@ router.post('/obtener-productos', (req: Request, res: Response) => {
     console.log(req.query);
     let consulta = `SELECT * FROM 
                     PRODUCTO 
-                    WHERE IDLOCAL = ${req.query.IDLOCAL}
-                    AND IDCATEGORIA = ${req.query.IDCATEGORIA}`;
+                    WHERE IDLOCAL = ${req.query.idlocal}
+                    AND IDCATEGORIA = ${req.query.idcategoria}`;
 
+                    
     // consulta estructurada con promesas
     mysql.query(consulta).then( (data: any) => {
         // console.log(data);
