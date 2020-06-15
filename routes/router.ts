@@ -221,7 +221,7 @@ router.post('/actualizar-empleado', (req: Request, res: Response) => {
                         IDLOCAL='${req.query.IDLOCAL}', 
                         IDUBICACION='${req.query.IDUBICACION}', 
                         IDFACULTAD='${req.query.IDFACULTAD}',
-                        NOMTRABAJADOR='${req.query.NOMTRABAJADOR}'
+                        NOMTRABAJADOR='${req.query.NOMTRABAJADOR}',
                         APETRABAJADOR='${req.query.APETRABAJADOR}'
                         WHERE IDTRABAJADOR= '${req.query.IDTRABAJADOR}'`; 
  
