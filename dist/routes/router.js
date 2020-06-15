@@ -396,7 +396,7 @@ exports.router.post('/obtener-productos-crud', (req, res) => {
     // consulta estructurada con promesas
     mysql.query(consulta).then((data) => {
         // console.log(data);
-        res.json(data);
+        res.json(data[0]);
     }).catch((err) => {
         res.status(500).json({ err });
     });
