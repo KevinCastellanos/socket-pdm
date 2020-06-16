@@ -1459,7 +1459,7 @@ router.post('/eliminar-ubicacion', (req: Request, res: Response) => {
     });
 });
 
-// ********* Ubicacion ******** CRUD
+// ********* Categoria ******** CRUD
 // LEER
 router.post('/obtener-categoria', (req: Request, res: Response) => {
     console.log('consulto api encargado local');
@@ -1478,7 +1478,7 @@ router.post('/obtener-categoria', (req: Request, res: Response) => {
 });
 
 // AGREGAR
-router.post('/registrar-cateogria', (req: Request, res: Response) => {
+router.post('/registrar-categoria', (req: Request, res: Response) => {
     console.log('entra a registrar encargado local');
     
     let query = `INSERT INTO CATEOGRIA (IDCATEGORIA, NOMBRECATEGORIA)

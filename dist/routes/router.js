@@ -1182,7 +1182,7 @@ exports.router.post('/eliminar-ubicacion', (req, res) => {
         res.status(500).json(0);
     });
 });
-// ********* Ubicacion ******** CRUD
+// ********* Categoria ******** CRUD
 // LEER
 exports.router.post('/obtener-categoria', (req, res) => {
     console.log('consulto api encargado local');
@@ -1197,7 +1197,7 @@ exports.router.post('/obtener-categoria', (req, res) => {
     // res.json({mensaje: 'probando api detalle producto'});
 });
 // AGREGAR
-exports.router.post('/registrar-cateogria', (req, res) => {
+exports.router.post('/registrar-categoria', (req, res) => {
     console.log('entra a registrar encargado local');
     let query = `INSERT INTO CATEOGRIA (IDCATEGORIA, NOMBRECATEGORIA)
                         VALUES ('${req.query.IDCATEGORIA}',
