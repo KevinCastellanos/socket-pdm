@@ -1507,7 +1507,7 @@ router.post('/actualizar-categoria', (req: Request, res: Response) => {
     
     const queryUpdate =  `UPDATE CATEGORIA
                         SET
-                        NOMBRECATEGORIA='${req.query.NOMBRECATEGORIA}', 
+                        NOMBRECATEGORIA='${req.query.NOMBRECATEGORIA}' 
                         WHERE IDCATEGORIA= '${req.query.IDCATEGORIA}'`; 
     // consulta estructurada con promesas
     mysql.query(queryUpdate).then( (data: any) => {

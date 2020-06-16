@@ -1221,7 +1221,7 @@ exports.router.post('/registrar-categoria', (req, res) => {
 exports.router.post('/actualizar-categoria', (req, res) => {
     const queryUpdate = `UPDATE CATEGORIA
                         SET
-                        NOMBRECATEGORIA='${req.query.NOMBRECATEGORIA}', 
+                        NOMBRECATEGORIA='${req.query.NOMBRECATEGORIA}' 
                         WHERE IDCATEGORIA= '${req.query.IDCATEGORIA}'`;
     // consulta estructurada con promesas
     mysql.query(queryUpdate).then((data) => {
