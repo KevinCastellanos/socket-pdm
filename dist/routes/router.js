@@ -124,6 +124,102 @@ exports.router.get('/pedido', (req, res) => {
         res.status(500).json({ err });
     });
 });
+// LEER
+exports.router.post('/obtener-pedido', (req, res) => {
+    console.log('consulto api local');
+    let consulta = `SELECT * FROM PEDIDO WHERE IDPEDIDO = ${req.query.IDPEDIDO}`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+// AGREGAR
+exports.router.post('/registrar-pedido', (req, res) => {
+    console.log('entra a registrar  local');
+    let query = `INSERT INTO PEDIDO (IDPEDIDO, IDRUTA, IDESTADOPEDIDO, IDTRABAJADOR, IDREPARTIDOR, IDUBICACION, FECHAPEDIDO, CLIENTE, PARALLEVAR)
+                        VALUES ('${req.query.IDPEDIDO}',
+                                '${req.query.IDRUTA}',
+                                '${req.query.IDESTADOPEDIDO}',
+                                '${req.query.IDTRABAJADOR}',
+                                '${req.query.IDREPARTIDOR}',
+                                '${req.query.IDUBICACION}',
+                                '${req.query.FECHAPEDIDO}',
+                                '${req.query.CLIENTE}'
+                                '${req.query.PARALLEVAR}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+// ACTUALIZAR
+exports.router.post('/actualizar-pedido', (req, res) => {
+    const queryUpdate = `UPDATE PEDIDO
+                        SET
+                        IDRUTA='${req.query.IDRUTA}', 
+                        IDESTADOPEDIDO='${req.query.IDESTADOPEDIDO}',
+                        IDTRABAJADOR='${req.query.IDTRABAJADOR}',
+                        IDREPARTIDOR='${req.query.IDREPARTIDOR}',
+                        IDUBICACION='${req.query.IDUBICACION}',
+                        FECHAPEDIDO='${req.query.FECHAPEDIDO}',
+                        CLIENTE='${req.query.CLIENTE}',
+                        PARALLEVAR='${req.query.PARALLEVAR}'
+                        WHERE IDPEDIDO= '${req.query.IDPEDIDO}'`;
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then((data) => {
+        if (data.affectedRows !== 0) {
+            const result = {
+                respuesta: 1
+            };
+            res.json(1);
+        }
+        else {
+            const result = {
+                respuesta: 0
+            };
+            res.json(0);
+        }
+        console.log(data);
+    }).catch((err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        };
+        res.status(500).json(result);
+    });
+});
+// ELIMINAR
+exports.router.post('/eliminar-pedido', (req, res) => {
+    console.log('entra a registrar detalle pedido');
+    let query = `DELETE FROM PEDIDO WHERE IDPEDIDO = '${req.query.IDPEDIDO}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
 // ********* empleado ********
 // CREAR
 exports.router.post('/registrar-empleado-ues', (req, res) => {
