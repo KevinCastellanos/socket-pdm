@@ -1481,7 +1481,7 @@ router.post('/obtener-categoria', (req: Request, res: Response) => {
 router.post('/registrar-categoria', (req: Request, res: Response) => {
     console.log('entra a registrar encargado local');
     
-    let query = `INSERT INTO CATEOGRIA (IDCATEGORIA, NOMBRECATEGORIA)
+    let query = `INSERT INTO CATEGORIA (IDCATEGORIA, NOMBRECATEGORIA)
                         VALUES ('${req.query.IDCATEGORIA}',
                                 '${req.query.NOMBRECATEGORIA}');`;
     // console.log(query);                

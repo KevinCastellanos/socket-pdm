@@ -1199,7 +1199,7 @@ exports.router.post('/obtener-categoria', (req, res) => {
 // AGREGAR
 exports.router.post('/registrar-categoria', (req, res) => {
     console.log('entra a registrar encargado local');
-    let query = `INSERT INTO CATEOGRIA (IDCATEGORIA, NOMBRECATEGORIA)
+    let query = `INSERT INTO CATEGORIA (IDCATEGORIA, NOMBRECATEGORIA)
                         VALUES ('${req.query.IDCATEGORIA}',
                                 '${req.query.NOMBRECATEGORIA}');`;
     // console.log(query);                
