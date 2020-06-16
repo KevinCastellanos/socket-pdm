@@ -1354,3 +1354,108 @@ router.post('/eliminar-facultad', (req: Request, res: Response) => {
     });
 });
 
+
+// ********* Ubicacion ******** CRUD
+// LEER
+router.post('/obtener-ubicacion', (req: Request, res: Response) => {
+    console.log('consulto api encargado local');
+
+    let consulta = `SELECT * FROM UBICACION WHERE IDUBICACION = ${req.query.IDUBICACION}`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+
+// AGREGAR
+router.post('/registrar-ubicacion', (req: Request, res: Response) => {
+    console.log('entra a registrar encargado local');
+    
+    let query = `INSERT INTO UBICACION (IDUBICACION, DESCUBICACION)
+                        VALUES ('${req.query.IDUBICACION}',
+                                '${req.query.DESCUBICACION}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ACTUALIZAR
+router.post('/actualizar-ubicacion', (req: Request, res: Response) => {
+    
+    const queryUpdate =  `UPDATE UBICACION
+                        SET
+                        DESCUBCACION='${req.query.DESCUBCACION}', 
+                        WHERE IDUBICACION= '${req.query.IDUBICACION}'`; 
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then( (data: any) => {
+
+        if(data.affectedRows !== 0 ) {
+            const result = {
+                respuesta: 1
+            }
+            
+            res.json(1);
+        } else {
+            const result = {
+                respuesta: 0
+            }
+            
+            res.json(0);
+
+        }
+        console.log(data);
+        
+        
+
+    }).catch( (err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        }
+
+        res.status(500).json(result);
+    });
+});
+
+// ELIMINAR
+router.post('/eliminar-ubicacion', (req: Request, res: Response) => {
+    console.log('entra a registrar detalle pedido');
+    
+    let query = `DELETE FROM UBICACION WHERE IDUBICACION = '${req.query.IDUBICACION}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
