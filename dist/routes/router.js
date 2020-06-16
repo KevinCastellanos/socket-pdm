@@ -1182,3 +1182,86 @@ exports.router.post('/eliminar-ubicacion', (req, res) => {
         res.status(500).json(0);
     });
 });
+// ********* Ubicacion ******** CRUD
+// LEER
+exports.router.post('/obtener-categoria', (req, res) => {
+    console.log('consulto api encargado local');
+    let consulta = `SELECT * FROM CATEGORIA WHERE IDCATEGORIA = ${req.query.IDCATEGORIA}`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+// AGREGAR
+exports.router.post('/registrar-cateogria', (req, res) => {
+    console.log('entra a registrar encargado local');
+    let query = `INSERT INTO CATEOGRIA (IDCATEGORIA, NOMBRECATEGORIA)
+                        VALUES ('${req.query.IDCATEGORIA}',
+                                '${req.query.NOMBRECATEGORIA}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+// ACTUALIZAR
+exports.router.post('/actualizar-categoria', (req, res) => {
+    const queryUpdate = `UPDATE CATEGORIA
+                        SET
+                        NOMBRECATEGORIA='${req.query.NOMBRECATEGORIA}', 
+                        WHERE IDCATEGORIA= '${req.query.IDCATEGORIA}'`;
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then((data) => {
+        if (data.affectedRows !== 0) {
+            const result = {
+                respuesta: 1
+            };
+            res.json(1);
+        }
+        else {
+            const result = {
+                respuesta: 0
+            };
+            res.json(0);
+        }
+        console.log(data);
+    }).catch((err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        };
+        res.status(500).json(result);
+    });
+});
+// ELIMINAR
+exports.router.post('/eliminar-categoria', (req, res) => {
+    console.log('entra a registrar detalle pedido');
+    let query = `DELETE FROM CATEGORIA WHERE IDCATEGORIA = '${req.query.IDCATEGORIA}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
