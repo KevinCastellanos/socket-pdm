@@ -1146,3 +1146,107 @@ router.post('/eliminar-cambio-precio', (req: Request, res: Response) => {
     });
 });
 
+
+// ********* Cambio precio  ******** CRUD
+// LEER
+router.post('/obtener-detalle-producto-precio', (req: Request, res: Response) => {
+    console.log('consulto api encargado local');
+
+    let consulta = `SELECT * FROM DETALLEPRODUCTOPRECIO WHERE PRECIOCAMBIO = ${req.query.PRECIOCAMBIO}`;
+
+    // consulta estructurada con promesas
+    mysql.query(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+
+// AGREGAR
+router.post('/registrar-detalle-producto-precio', (req: Request, res: Response) => {
+    console.log('entra a registrar encargado local');
+    
+    let query = `INSERT INTO DETALLEPRODUCTOPRECIO (PRECIOCAMBIO)
+                        VALUES ('${req.query.PRECIOCAMBIO}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
+// ACTUALIZAR
+router.post('/actualizar-detalle-producto-precio', (req: Request, res: Response) => {
+    
+    const queryUpdate =  `UPDATE DETALLEPRODUCTOPRECIO
+                        SET
+                        PRECIOCAMBIO='${req.query.PRECIOCAMBIO}', 
+                        WHERE PRECIOCAMBIO= '${req.query.PRECIOCAMBIO}'`; 
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then( (data: any) => {
+
+        if(data.affectedRows !== 0 ) {
+            const result = {
+                respuesta: 1
+            }
+            
+            res.json(1);
+        } else {
+            const result = {
+                respuesta: 0
+            }
+            
+            res.json(0);
+
+        }
+        console.log(data);
+        
+        
+
+    }).catch( (err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        }
+
+        res.status(500).json(result);
+    });
+});
+
+// ELIMINAR
+router.post('/eliminar-detalle-producto-precio', (req: Request, res: Response) => {
+    console.log('entra a registrar detalle pedido');
+    
+    let query = `DELETE FROM DETALLEPRODUCTOPRECIO WHERE PRECIOCAMBIO = '${req.query.PRECIOCAMBIO}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then( (data: any) => {
+        
+        console.log('hizo la consulta',data);
+
+        if(data.affectedRows === 1) {
+            res.json(1);
+        } else {
+            res.json(0);
+        }
+
+    }).catch( (err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+
