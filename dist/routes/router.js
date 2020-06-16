@@ -114,7 +114,8 @@ exports.router.post('/actualizar-detalle-producto-pedido', (req, res) => {
     });
 });
 // ********* pedido ********                                            CRUD
-exports.router.get('/pedido', (req, res) => {
+// LEER
+exports.router.get('/obtener-pedido', (req, res) => {
     let consulta = `SELECT * FROM PEDIDO`;
     // consulta estructurada con promesas
     mysql.query(consulta).then((data) => {
@@ -613,25 +614,6 @@ exports.router.post('/registrar-encargado-local', (req, res) => {
         res.status(500).json(0);
     });
 });
-// ELIMINAR
-exports.router.post('/eliminar-encargado-local', (req, res) => {
-    console.log('entra a registrar detalle pedido');
-    let query = `DELETE FROM ENCARGADOLOCAL WHERE IDENCARGADOLOCAL = '${req.query.IDENCARGADOLOCAL}';`;
-    // console.log(query);                
-    // consulta estructurada con promesas
-    mysql.query(query).then((data) => {
-        console.log('hizo la consulta', data);
-        if (data.affectedRows === 1) {
-            res.json(1);
-        }
-        else {
-            res.json(0);
-        }
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).json(0);
-    });
-});
 // ACTUALIZAR
 exports.router.post('/actualizar-encargado-local', (req, res) => {
     const queryUpdate = `UPDATE ENCARGADOLOCAL
@@ -661,6 +643,25 @@ exports.router.post('/actualizar-encargado-local', (req, res) => {
             datos: err
         };
         res.status(500).json(result);
+    });
+});
+// ELIMINAR
+exports.router.post('/eliminar-encargado-local', (req, res) => {
+    console.log('entra a registrar detalle pedido');
+    let query = `DELETE FROM ENCARGADOLOCAL WHERE IDENCARGADOLOCAL = '${req.query.IDENCARGADOLOCAL}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
     });
 });
 // ********* local ******** CRUD
@@ -831,6 +832,93 @@ exports.router.post('/actualizar-menu', (req, res) => {
 exports.router.post('/eliminar-menu', (req, res) => {
     console.log('entra a registrar detalle pedido');
     let query = `DELETE FROM MENU WHERE IDMENU = '${req.query.IDMENU}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+// ********* Cambio precio  ******** CRUD
+// LEER
+exports.router.post('/obtener-cambio-precio', (req, res) => {
+    console.log('consulto api encargado local');
+    let consulta = `SELECT * FROM CAMBIOPRECIOS WHERE IDCAMBIOPRECIO = ${req.query.IDCAMBIOPRECIO}`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+// AGREGAR
+exports.router.post('/registrar-cambio-precio', (req, res) => {
+    console.log('entra a registrar encargado local');
+    let query = `INSERT INTO CAMBIOPRECIO (IDCAMBIOPRECIO, IDPRODUCTO, FECHACAMBIO, PRECIONUEVO)
+                        VALUES ('${req.query.IDCAMBIOPRECIO}',
+                                '${req.query.IDPRODUCTO}',
+                                '${req.query.FECHACAMBIO}',
+                                '${req.query.PRECIONUEVO}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+// ACTUALIZAR
+exports.router.post('/actualizar-cambio-precio', (req, res) => {
+    const queryUpdate = `UPDATE CAMBIOPRECIO
+                        SET
+                        IDPRODUCTO='${req.query.IDPRODUCTO}', 
+                        FECHACAMBIO='${req.query.FECHACAMBIO}', 
+                        PRECIONUEVO='${req.query.PRECIONUEVO}'
+                        WHERE IDCAMBIOPRECIO= '${req.query.IDCAMBIOPRECIO}'`;
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then((data) => {
+        if (data.affectedRows !== 0) {
+            const result = {
+                respuesta: 1
+            };
+            res.json(1);
+        }
+        else {
+            const result = {
+                respuesta: 0
+            };
+            res.json(0);
+        }
+        console.log(data);
+    }).catch((err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        };
+        res.status(500).json(result);
+    });
+});
+// ELIMINAR
+exports.router.post('/eliminar-cambio-precio', (req, res) => {
+    console.log('entra a registrar detalle pedido');
+    let query = `DELETE FROM CAMBIOPRECIO WHERE IDCAMBIOPRECIO = '${req.query.IDCAMBIOPRECIO}';`;
     // console.log(query);                
     // consulta estructurada con promesas
     mysql.query(query).then((data) => {
