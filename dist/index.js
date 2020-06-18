@@ -27,4 +27,16 @@ server.app.use('/', router_1.router);
 // inicializamos el servidor
 server.start(() => {
     console.log(`Servidor corriendo en el puerto: ${enviroment_1.SERVER_PORT}`);
+    var arrayOfObjects = [{
+            "id": 28,
+            "Title": "Sweden"
+        }, {
+            "id": 56,
+            "Title": "USA"
+        }, {
+            "id": 89,
+            "Title": "England"
+        }];
+    const obj = JSON.stringify(arrayOfObjects);
+    console.log('JSON PARSE: ', JSON.parse(obj));
 });

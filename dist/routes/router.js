@@ -166,6 +166,104 @@ exports.router.post('/registrar-pedido', (req, res) => {
         res.status(500).json(0);
     });
 });
+// AGREGAR PEDIDO FLUJO NORMAL
+// AGREGAR
+exports.router.post('/registrar-pedido-flujo', (req, res) => {
+    console.log('entra a registrar  local', req.query);
+    /****************** obtenemos los datos para procesarlos *******************/
+    // id pedido
+    const idPedido = req.query.idPedido;
+    // obtenemos el id de un repartidor disponible
+    const numAleatorio = Math.floor(Math.random() * 6) + 1;
+    // obtenemos el id ruta
+    const idRuta = 1;
+    // obtenemos el id trabajador
+    const idEstadoPedido = 1;
+    // es para llevar 1 = si, 0 = no
+    const esParaLlevar = req.query.esParaLlevar;
+    // obtenemos  el idUnicacion
+    const idUbicacion = req.query.idUbicacion;
+    // obtenemos el idTrabajador
+    const idTrabajador = 1;
+    // fecha de pedido
+    const fechaPedido = req.query.fechaPedido;
+    // nombre cliente
+    const nombreCliente = req.query.nombreCliente;
+    /****************** /obtenemos los datos para procesarlos *******************/
+    let query = `INSERT INTO PEDIDO (IDPEDIDO, IDRUTA, IDESTADOPEDIDO, IDTRABAJADOR, IDREPARTIDOR, IDUBICACION, FECHAPEDIDO, CLIENTE, PARALLEVAR)
+                        VALUES ('${idPedido}',
+                                '${idRuta}',
+                                '${idEstadoPedido}',
+                                '${idTrabajador}',
+                                '${numAleatorio}',
+                                '${idUbicacion}',
+                                '${fechaPedido}',
+                                '${nombreCliente}',
+                                '${esParaLlevar}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        // data.insertId
+        // convertimos los detalles en JSON
+        console.log('convertir a objetos');
+        const objetos = JSON.parse(req.query.detalle);
+        // const obj = JSON.parse(req.query.detalle);
+        var arrayOfObjects = [{
+                "id": 28,
+                "Title": "Sweden"
+            }, {
+                "id": 56,
+                "Title": "USA"
+            }, {
+                "id": 89,
+                "Title": "England"
+            }];
+        console.log('objeto convertido', arrayOfObjects);
+        console.log('objeto convertido', arrayOfObjects.length);
+        console.log('id insertado: ', idPedido);
+        console.log('objetos : ', objetos);
+        console.log('cantidad objetos : ', objetos.length);
+        // insertamos los detalles de productos escogidos
+        for (let i in objetos) {
+            // console.log( i + ' - cantidad pedido: ', obj[i].cantidadPedido);
+            let query2 = `INSERT INTO 
+                        DETALLEPRODUCTOPEDIDO (CANTIDADPEDIDO, IDPEDIDO, IDPRODUCTO)
+                        VALUES ('${objetos[i].cantidadPedido}',
+                                '${idPedido}',
+                                '${objetos[i].idProducto}');`;
+            mysql.query(query2).then((data) => {
+                console.log('registro detalle producto');
+                // restamos cantidad de producto de la tabla producto
+                const query3 = `SELECT * FROM PRODUCTO WHERE IDPRODUCTO = ${objetos[i].idProducto}`;
+                mysql.query(query3).then((data3) => {
+                    console.log('PRODUCTO: ', data3[0].EXISTENCIA);
+                    const existencia = data3[0].EXISTENCIA - objetos[i].cantidadPedido;
+                    const query4 = `UPDATE PRODUCTO SET EXISTENCIA=${existencia} WHERE IDPRODUCTO = ${objetos[i].idProducto}`;
+                    mysql.query(query4).then((data4) => {
+                        console.log(data4);
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+        //console.log('hizo la consulta',data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+    // res.json(Math.floor(Math.random() * 6) + 1);
+});
 // ACTUALIZAR
 exports.router.post('/actualizar-pedido', (req, res) => {
     const queryUpdate = `UPDATE PEDIDO
