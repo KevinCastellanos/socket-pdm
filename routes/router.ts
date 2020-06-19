@@ -196,9 +196,6 @@ router.post('/registrar-pedido', (req: Request, res: Response) => {
 router.post('/registrar-pedido-flujo', (req: Request, res: Response) => {
     console.log('entra a registrar  pedido', req.query);
 
-    for (let i in req.query.detalle) {
-        console.log('array separado', req.query.detalle[i].split(','));
-    }
     
 
     /****************** obtenemos los datos para procesarlos *******************/
@@ -225,7 +222,7 @@ router.post('/registrar-pedido-flujo', (req: Request, res: Response) => {
 
 
     
-    /*let query = `INSERT INTO PEDIDO (IDPEDIDO, IDRUTA, IDESTADOPEDIDO, IDTRABAJADOR, IDREPARTIDOR, IDUBICACION, FECHAPEDIDO, CLIENTE, PARALLEVAR)
+    let query = `INSERT INTO PEDIDO (IDPEDIDO, IDRUTA, IDESTADOPEDIDO, IDTRABAJADOR, IDREPARTIDOR, IDUBICACION, FECHAPEDIDO, CLIENTE, PARALLEVAR)
                         VALUES ('${idPedido}',
                                 '${idRuta}',
                                 '${idEstadoPedido}',
@@ -241,8 +238,7 @@ router.post('/registrar-pedido-flujo', (req: Request, res: Response) => {
 
         // data.insertId
         // convertimos los detalles en JSON
-        console.log('convertir a objetos');
-        const objetos = JSON.parse(req.query.detalle);
+
         // const obj = JSON.parse(req.query.detalle);
 
         var arrayOfObjects = [{
@@ -259,28 +255,31 @@ router.post('/registrar-pedido-flujo', (req: Request, res: Response) => {
         console.log('objeto convertido',arrayOfObjects);
         console.log('objeto convertido',arrayOfObjects.length);
         console.log('id insertado: ', idPedido);
-        console.log('objetos : ', objetos);
-        console.log('cantidad objetos : ', objetos.length);
+    
         // insertamos los detalles de productos escogidos
         
-        for (let i in objetos) {
+       
+            
+        
+        for (let i in req.query.detalle) {
+            console.log('array separado', req.query.detalle[i].split(',')[0]);
             // console.log( i + ' - cantidad pedido: ', obj[i].cantidadPedido);
             let query2 = `INSERT INTO 
                         DETALLEPRODUCTOPEDIDO (CANTIDADPEDIDO, IDPEDIDO, IDPRODUCTO)
-                        VALUES ('${objetos[i].cantidadPedido}',
+                        VALUES ('${req.query.detalle[i].split(',')[0]}',
                                 '${idPedido}',
-                                '${objetos[i].idProducto}');`;
+                                '${req.query.detalle[i].split(',')[1]}');`;
                           
             mysql.query(query2).then( (data: any) => {
                 console.log('registro detalle producto');
 
                 // restamos cantidad de producto de la tabla producto
-                const query3 = `SELECT * FROM PRODUCTO WHERE IDPRODUCTO = ${objetos[i].idProducto}`;
+                const query3 = `SELECT * FROM PRODUCTO WHERE IDPRODUCTO = ${req.query.detalle[i].split(',')[1]}`;
                 mysql.query(query3).then( (data3: any) => {
                     console.log('PRODUCTO: ', data3[0].EXISTENCIA);
-                    const existencia =  data3[0].EXISTENCIA - objetos[i].cantidadPedido;
+                    const existencia =  data3[0].EXISTENCIA - req.query.detalle[i].split(',')[0];
 
-                    const query4 = `UPDATE PRODUCTO SET EXISTENCIA=${existencia} WHERE IDPRODUCTO = ${objetos[i].idProducto}`;
+                    const query4 = `UPDATE PRODUCTO SET EXISTENCIA=${existencia} WHERE IDPRODUCTO = ${req.query.detalle[i].split(',')[1]}`;
                     mysql.query(query4).then( (data4: any) => {
                        console.log(data4);
                         
@@ -307,9 +306,9 @@ router.post('/registrar-pedido-flujo', (req: Request, res: Response) => {
     }).catch( (err) => {
         console.log(err);
         res.status(500).json(0);
-    });*/
+    });
 
-    res.json(Math.floor(Math.random() * 6) + 1);
+    // res.json(Math.floor(Math.random() * 6) + 1);
 });
 
 // ACTUALIZAR

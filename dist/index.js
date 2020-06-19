@@ -39,4 +39,5 @@ server.start(() => {
         }];
     const obj = JSON.stringify(arrayOfObjects);
     console.log('JSON PARSE: ', JSON.parse(obj));
+    console.log('3,1'.split(',')[1]);
 });
