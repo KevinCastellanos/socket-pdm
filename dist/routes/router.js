@@ -220,8 +220,9 @@ exports.router.post('/registrar-pedido-flujo', (req, res) => {
         console.log('objeto convertido', arrayOfObjects.length);
         console.log('id insertado: ', idPedido);
         // insertamos los detalles de productos escogidos
+        console.log('DETALLE: ', req.query.detalle);
         for (let i in req.query.detalle) {
-            console.log('array separado', req.query.detalle[i].split(',')[0]);
+            console.log('array separado: ', req.query.detalle[i].split(',')[0]);
             // console.log( i + ' - cantidad pedido: ', obj[i].cantidadPedido);
             let query2 = `INSERT INTO 
                         DETALLEPRODUCTOPEDIDO (CANTIDADPEDIDO, IDPEDIDO, IDPRODUCTO)
