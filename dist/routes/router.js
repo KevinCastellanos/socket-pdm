@@ -169,7 +169,10 @@ exports.router.post('/registrar-pedido', (req, res) => {
 // AGREGAR PEDIDO FLUJO NORMAL
 // AGREGAR
 exports.router.post('/registrar-pedido-flujo', (req, res) => {
-    console.log('entra a registrar  local', req.query);
+    console.log('entra a registrar  pedido', req.query);
+    for (let i in req.query.detalle) {
+        console.log('array separado', req.query.detalle[i].split(','));
+    }
     /****************** obtenemos los datos para procesarlos *******************/
     // id pedido
     const idPedido = req.query.idPedido;
