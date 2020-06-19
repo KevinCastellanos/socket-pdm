@@ -514,13 +514,13 @@ router.get('/empleado-ues', (req: Request, res: Response) => {
 router.post('/registrar-repartidor', (req: Request, res: Response) => {
     
     let query = `INSERT INTO EMPLEADOUES (IDTRABAJADOR, IDLOCAL, IDUBICACION, IDFACULTAD, NOMTRABAJADOR, APETRABAJADOR, TELTRABAJADOR)
-                VALUES ('${req.body.idTrabajador}',
-                        '${req.body.Idlocal}',
-                        '${req.body.idUbicacion}',
-                        '${req.body.idFacultad}', 
-                        '${req.body.NombreTRabajador}',
-                        '${req.body.Apellido}',
-                        '${req.body.tel}');`;
+                VALUES ('${req.query.idTrabajador}',
+                        '${req.query.Idlocal}',
+                        '${req.query.idUbicacion}',
+                        '${req.query.idFacultad}', 
+                        '${req.query.NombreTRabajador}',
+                        '${req.query.Apellido}',
+                        '${req.query.tel}');`;
     // console.log(query);                
     // consulta estructurada con promesas
     mysql.query(query).then( (data: any) => {
