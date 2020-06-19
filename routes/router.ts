@@ -196,7 +196,6 @@ router.post('/registrar-pedido', (req: Request, res: Response) => {
 router.post('/registrar-pedido-flujo', (req: Request, res: Response) => {
     console.log('entra a registrar  local', req.query);
 
-
     /****************** obtenemos los datos para procesarlos *******************/
     // id pedido
     const idPedido = req.query.idPedido;
@@ -221,7 +220,7 @@ router.post('/registrar-pedido-flujo', (req: Request, res: Response) => {
 
 
     
-    let query = `INSERT INTO PEDIDO (IDPEDIDO, IDRUTA, IDESTADOPEDIDO, IDTRABAJADOR, IDREPARTIDOR, IDUBICACION, FECHAPEDIDO, CLIENTE, PARALLEVAR)
+    /*let query = `INSERT INTO PEDIDO (IDPEDIDO, IDRUTA, IDESTADOPEDIDO, IDTRABAJADOR, IDREPARTIDOR, IDUBICACION, FECHAPEDIDO, CLIENTE, PARALLEVAR)
                         VALUES ('${idPedido}',
                                 '${idRuta}',
                                 '${idEstadoPedido}',
@@ -303,9 +302,9 @@ router.post('/registrar-pedido-flujo', (req: Request, res: Response) => {
     }).catch( (err) => {
         console.log(err);
         res.status(500).json(0);
-    });
+    });*/
 
-    // res.json(Math.floor(Math.random() * 6) + 1);
+    res.json(Math.floor(Math.random() * 6) + 1);
 });
 
 // ACTUALIZAR
