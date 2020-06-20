@@ -1206,7 +1206,7 @@ router.post('/registrar-cambio-precio', (req: Request, res: Response) => {
 // ACTUALIZAR
 router.post('/actualizar-cambio-precio', (req: Request, res: Response) => {
     
-    const queryUpdate =  `UPDATE CAMBIOPRECIO
+    const queryUpdate =  `UPDATE CAMBIOPRECIOS
                         SET
                         IDPRODUCTO='${req.query.IDPRODUCTO}', 
                         FECHACAMBIO='${req.query.FECHACAMBIO}', 

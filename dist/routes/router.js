@@ -982,7 +982,7 @@ exports.router.post('/registrar-cambio-precio', (req, res) => {
 });
 // ACTUALIZAR
 exports.router.post('/actualizar-cambio-precio', (req, res) => {
-    const queryUpdate = `UPDATE CAMBIOPRECIO
+    const queryUpdate = `UPDATE CAMBIOPRECIOS
                         SET
                         IDPRODUCTO='${req.query.IDPRODUCTO}', 
                         FECHACAMBIO='${req.query.FECHACAMBIO}', 
