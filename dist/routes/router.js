@@ -132,7 +132,7 @@ exports.router.post('/obtener-pedido', (req, res) => {
     // consulta estructurada con promesas
     mysql.query(consulta).then((data) => {
         // console.log(data);
-        res.json(data);
+        res.json(data[0]);
     }).catch((err) => {
         res.status(500).json({ err });
     });
@@ -149,7 +149,7 @@ exports.router.post('/registrar-pedido', (req, res) => {
                                 '${req.query.IDREPARTIDOR}',
                                 '${req.query.IDUBICACION}',
                                 '${req.query.FECHAPEDIDO}',
-                                '${req.query.CLIENTE}'
+                                '${req.query.CLIENTE}', 
                                 '${req.query.PARALLEVAR}');`;
     // console.log(query);                
     // consulta estructurada con promesas
