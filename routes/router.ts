@@ -1060,7 +1060,7 @@ router.post('/obtener-menu', (req: Request, res: Response) => {
     // consulta estructurada con promesas
     mysql.query(consulta).then( (data: any) => {
         // console.log(data);
-        res.json(data);
+        res.json(data[0]);
     }).catch( (err) => {
         res.status(500).json({ err });
     });
