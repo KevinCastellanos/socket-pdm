@@ -1014,7 +1014,7 @@ exports.router.post('/actualizar-cambio-precio', (req, res) => {
 // ELIMINAR
 exports.router.post('/eliminar-cambio-precio', (req, res) => {
     console.log('entra a registrar detalle pedido');
-    let query = `DELETE FROM CAMBIOPRECIO WHERE IDCAMBIOPRECIO = '${req.query.IDCAMBIOPRECIO}';`;
+    let query = `DELETE FROM CAMBIOPRECIOS WHERE IDCAMBIOPRECIO = '${req.query.IDCAMBIOPRECIO}';`;
     // console.log(query);                
     // consulta estructurada con promesas
     mysql.query(query).then((data) => {
