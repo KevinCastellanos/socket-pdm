@@ -1361,3 +1361,86 @@ exports.router.post('/eliminar-categoria', (req, res) => {
         res.status(500).json(0);
     });
 });
+// ********* estado-pedido ******** CRUD
+// LEER
+exports.router.post('/obtener-estado-pedido', (req, res) => {
+    console.log('consulto api estado pedido');
+    let consulta = `SELECT * FROM ESTADPEDIDO WHERE IDESTADOPEDIDO = ${req.query.IDESTADOPEDIDO}`;
+    // consulta estructurada con promesas
+    mysql.query(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+// AGREGAR
+exports.router.post('/registrar-estado-pedido', (req, res) => {
+    console.log('entra a registrar encargado local');
+    let query = `INSERT INTO ESTADPEDIDO (IDESTADOPEDIDO, DESCESTADOPEDIDO)
+                        VALUES ('${req.query.IDESTADOPEDIDO}',
+                                '${req.query.DESCESTADOPEDIDO}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
+// ACTUALIZAR
+exports.router.post('/actualizar-estado-pedido', (req, res) => {
+    const queryUpdate = `UPDATE ESTADPEDIDO
+                        SET
+                        DESCESTADOPEDIDO='${req.query.DESCESTADOPEDIDO}' 
+                        WHERE IDESTADOPEDIDO= '${req.query.IDESTADOPEDIDO}'`;
+    // consulta estructurada con promesas
+    mysql.query(queryUpdate).then((data) => {
+        if (data.affectedRows !== 0) {
+            const result = {
+                respuesta: 1
+            };
+            res.json(1);
+        }
+        else {
+            const result = {
+                respuesta: 0
+            };
+            res.json(0);
+        }
+        console.log(data);
+    }).catch((err) => {
+        const result = {
+            respuesta: 0,
+            datos: err
+        };
+        res.status(500).json(result);
+    });
+});
+// ELIMINAR
+exports.router.post('/eliminar-estado-pedido', (req, res) => {
+    console.log('entra a registrar detalle pedido');
+    let query = `DELETE FROM ESTADPEDIDO WHERE IDESTADOPEDIDO = '${req.query.IDESTADOPEDIDO}';`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
+});
