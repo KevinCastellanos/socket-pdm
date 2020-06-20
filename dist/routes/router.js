@@ -960,7 +960,7 @@ exports.router.post('/obtener-cambio-precio', (req, res) => {
 // AGREGAR
 exports.router.post('/registrar-cambio-precio', (req, res) => {
     console.log('entra a registrar encargado local');
-    let query = `INSERT INTO CAMBIOPRECIO (IDCAMBIOPRECIO, IDPRODUCTO, FECHACAMBIO, PRECIONUEVO)
+    let query = `INSERT INTO CAMBIOPRECIOS (IDCAMBIOPRECIO, IDPRODUCTO, FECHACAMBIO, PRECIONUEVO)
                         VALUES ('${req.query.IDCAMBIOPRECIO}',
                                 '${req.query.IDPRODUCTO}',
                                 '${req.query.FECHACAMBIO}',

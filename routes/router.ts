@@ -1180,7 +1180,7 @@ router.post('/obtener-cambio-precio', (req: Request, res: Response) => {
 router.post('/registrar-cambio-precio', (req: Request, res: Response) => {
     console.log('entra a registrar encargado local');
     
-    let query = `INSERT INTO CAMBIOPRECIO (IDCAMBIOPRECIO, IDPRODUCTO, FECHACAMBIO, PRECIONUEVO)
+    let query = `INSERT INTO CAMBIOPRECIOS (IDCAMBIOPRECIO, IDPRODUCTO, FECHACAMBIO, PRECIONUEVO)
                         VALUES ('${req.query.IDCAMBIOPRECIO}',
                                 '${req.query.IDPRODUCTO}',
                                 '${req.query.FECHACAMBIO}',
