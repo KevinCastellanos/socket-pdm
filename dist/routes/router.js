@@ -131,7 +131,7 @@ exports.router.post('/obtener-pedido', (req, res) => {
     let consulta = `SELECT * FROM PEDIDO WHERE IDPEDIDO = ${req.query.IDPEDIDO}`;
     // consulta estructurada con promesas
     mysql.query(consulta).then((data) => {
-        // console.log(data);
+        console.log(data);
         res.json(data[0]);
     }).catch((err) => {
         res.status(500).json({ err });

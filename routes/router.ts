@@ -150,7 +150,7 @@ router.post('/obtener-pedido', (req: Request, res: Response) => {
 
     // consulta estructurada con promesas
     mysql.query(consulta).then( (data: any) => {
-        // console.log(data);
+        console.log(data);
         res.json(data[0]);
     }).catch( (err) => {
         res.status(500).json({ err });
