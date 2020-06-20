@@ -127,7 +127,7 @@ exports.router.get('/obtener-pedido', (req, res) => {
 });
 // LEER
 exports.router.post('/obtener-pedido', (req, res) => {
-    console.log('consulto api local');
+    console.log('consulto api pedido');
     let consulta = `SELECT * FROM PEDIDO WHERE IDPEDIDO = ${req.query.IDPEDIDO}`;
     // consulta estructurada con promesas
     mysql.query(consulta).then((data) => {

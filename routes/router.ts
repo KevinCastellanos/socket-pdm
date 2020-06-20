@@ -144,7 +144,7 @@ router.get('/obtener-pedido', (req: Request, res: Response) => {
 
 // LEER
 router.post('/obtener-pedido', (req: Request, res: Response) => {
-    console.log('consulto api local');
+    console.log('consulto api pedido');
 
     let consulta = `SELECT * FROM PEDIDO WHERE IDPEDIDO = ${req.query.IDPEDIDO}`;
 
