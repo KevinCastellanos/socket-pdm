@@ -1795,7 +1795,7 @@ router.post('/eliminar-estado-pedido', (req: Request, res: Response) => {
 // ***************************************************************************
 // proyecto 2
 
-router.post('/login', (req: Request, res: Response) => {
+router.post('/login2', (req: Request, res: Response) => {
     console.log('consulto api detalle producto');
     // console.log(req.body);
     console.log(req.query);

@@ -1447,7 +1447,7 @@ exports.router.post('/eliminar-estado-pedido', (req, res) => {
 // ***************************************************************************
 // ***************************************************************************
 // proyecto 2
-exports.router.post('/login', (req, res) => {
+exports.router.post('/login2', (req, res) => {
     console.log('consulto api detalle producto');
     // console.log(req.body);
     console.log(req.query);
