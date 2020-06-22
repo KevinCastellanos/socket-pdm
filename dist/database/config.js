@@ -16,6 +16,14 @@ const config = {
     connectTimeout: 20000,
     acquireTimeout: 20000
 };
+const config2 = {
+    host: '3.133.138.215',
+    user: 'tpi115',
+    password: 'Tpi115.$',
+    database: 'pdm2',
+    connectTimeout: 20000,
+    acquireTimeout: 20000
+};
 //db: tbGPStkontrol
 //table: pescucha_evento
 //campo: arreglo
@@ -25,3 +33,4 @@ const config = {
 // que manualmente abrir y cerrar conexiones múltiples.
 // Por último, a exportar la piscina de MySQL para poder utilizar la aplicación.
 exports.pool = mysql.createPool(config);
+exports.pool2 = mysql.createPool(config2);

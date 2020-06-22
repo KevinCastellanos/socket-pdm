@@ -1789,3 +1789,30 @@ router.post('/eliminar-estado-pedido', (req: Request, res: Response) => {
 });
 
 
+
+
+// ***************************************************************************
+// ***************************************************************************
+// proyecto 2
+
+router.post('/login', (req: Request, res: Response) => {
+    console.log('consulto api detalle producto');
+    // console.log(req.body);
+    console.log(req.query);
+    let consulta = `SELECT * 
+                    FROM USUARIO 
+                    WHERE USUARIO = '${req.query.USUARIO}'
+                    AND PWD = '${req.query.PWD}';`;
+
+    // consulta estructurada con promesas
+    mysql.query2(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data[0]);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+
+

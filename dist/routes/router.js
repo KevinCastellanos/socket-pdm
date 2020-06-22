@@ -1444,3 +1444,23 @@ exports.router.post('/eliminar-estado-pedido', (req, res) => {
         res.status(500).json(0);
     });
 });
+// ***************************************************************************
+// ***************************************************************************
+// proyecto 2
+exports.router.post('/login', (req, res) => {
+    console.log('consulto api detalle producto');
+    // console.log(req.body);
+    console.log(req.query);
+    let consulta = `SELECT * 
+                    FROM USUARIO 
+                    WHERE USUARIO = '${req.query.USUARIO}'
+                    AND PWD = '${req.query.PWD}';`;
+    // consulta estructurada con promesas
+    mysql.query2(consulta).then((data) => {
+        // console.log(data);
+        res.json(data[0]);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+    // res.json({mensaje: 'probando api detalle producto'});
+});
