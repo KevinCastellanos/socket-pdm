@@ -1418,7 +1418,7 @@ router.post('/actualizar-facultad', (req: Request, res: Response) => {
     
     const queryUpdate =  `UPDATE FACULTAD
                         SET
-                        NOMFACULTAD='${req.query.NOMFACULTAD}', 
+                        NOMFACULTAD='${req.query.NOMFACULTAD}'
                         WHERE IDFACULTAD= '${req.query.IDFACULTAD}'`; 
     // consulta estructurada con promesas
     mysql.query(queryUpdate).then( (data: any) => {

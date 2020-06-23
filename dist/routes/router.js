@@ -1151,7 +1151,7 @@ exports.router.post('/registrar-facultad', (req, res) => {
 exports.router.post('/actualizar-facultad', (req, res) => {
     const queryUpdate = `UPDATE FACULTAD
                         SET
-                        NOMFACULTAD='${req.query.NOMFACULTAD}', 
+                        NOMFACULTAD='${req.query.NOMFACULTAD}'
                         WHERE IDFACULTAD= '${req.query.IDFACULTAD}'`;
     // consulta estructurada con promesas
     mysql.query(queryUpdate).then((data) => {
