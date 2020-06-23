@@ -1523,7 +1523,7 @@ router.post('/actualizar-ubicacion', (req: Request, res: Response) => {
     
     const queryUpdate =  `UPDATE UBICACION
                         SET
-                        DESCUBCACION='${req.query.DESCUBCACION}', 
+                        DESCUBCACION='${req.query.DESCUBCACION}'
                         WHERE IDUBICACION= '${req.query.IDUBICACION}'`; 
     // consulta estructurada con promesas
     mysql.query(queryUpdate).then( (data: any) => {

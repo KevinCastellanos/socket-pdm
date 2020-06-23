@@ -1234,7 +1234,7 @@ exports.router.post('/registrar-ubicacion', (req, res) => {
 exports.router.post('/actualizar-ubicacion', (req, res) => {
     const queryUpdate = `UPDATE UBICACION
                         SET
-                        DESCUBCACION='${req.query.DESCUBCACION}', 
+                        DESCUBCACION='${req.query.DESCUBCACION}'
                         WHERE IDUBICACION= '${req.query.IDUBICACION}'`;
     // consulta estructurada con promesas
     mysql.query(queryUpdate).then((data) => {
