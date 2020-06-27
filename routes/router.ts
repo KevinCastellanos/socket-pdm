@@ -1843,7 +1843,7 @@ router.post('/crear-ruta', (req: Request, res: Response) => {
                                 '${req.query.DESCRIPCION}');`;
     // console.log(query);                
     // consulta estructurada con promesas
-    mysql.query(query).then( (data: any) => {
+    mysql.query2(query).then( (data: any) => {
         
         console.log('hizo la consulta',data);
 

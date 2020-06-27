@@ -1486,7 +1486,7 @@ exports.router.post('/crear-ruta', (req, res) => {
                                 '${req.query.DESCRIPCION}');`;
     // console.log(query);                
     // consulta estructurada con promesas
-    mysql.query(query).then((data) => {
+    mysql.query2(query).then((data) => {
         console.log('hizo la consulta', data);
         if (data.affectedRows === 1) {
             res.json(1);
