@@ -1464,3 +1464,15 @@ exports.router.post('/login2', (req, res) => {
     });
     // res.json({mensaje: 'probando api detalle producto'});
 });
+exports.router.post('/obtener-rutas', (req, res) => {
+    console.log('api obtener rutas');
+    let consulta = `SELECT * FROM RUTAS`;
+    // consulta estructurada con promesas
+    mysql.query2(consulta).then((data) => {
+        // console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.status(500).json({ err });
+    });
+    // res.json({mensaje: 'probando api detalle producto'});
+});

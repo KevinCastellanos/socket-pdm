@@ -1816,3 +1816,20 @@ router.post('/login2', (req: Request, res: Response) => {
 });
 
 
+router.post('/obtener-rutas', (req: Request, res: Response) => {
+    console.log('api obtener rutas');
+
+    let consulta = `SELECT * FROM RUTAS`;
+
+    // consulta estructurada con promesas
+    mysql.query2(consulta).then( (data: any) => {
+        // console.log(data);
+        res.json(data);
+    }).catch( (err) => {
+        res.status(500).json({ err });
+    });
+
+    // res.json({mensaje: 'probando api detalle producto'});
+});
+
+
