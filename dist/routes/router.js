@@ -1464,6 +1464,8 @@ exports.router.post('/login2', (req, res) => {
     });
     // res.json({mensaje: 'probando api detalle producto'});
 });
+/******* CRUD *******/
+// LEER
 exports.router.post('/obtener-rutas', (req, res) => {
     console.log('api obtener rutas');
     let consulta = `SELECT * FROM RUTAS`;
@@ -1475,4 +1477,25 @@ exports.router.post('/obtener-rutas', (req, res) => {
         res.status(500).json({ err });
     });
     // res.json({mensaje: 'probando api detalle producto'});
+});
+// AGREGAR
+exports.router.post('/crear-ruta', (req, res) => {
+    console.log('API crear ruta');
+    let query = `INSERT INTO RUTAS (NOMBRE, DESCRIPCION)
+                        VALUES ('${req.query.NOMBRE}',
+                                '${req.query.DESCRIPCION}');`;
+    // console.log(query);                
+    // consulta estructurada con promesas
+    mysql.query(query).then((data) => {
+        console.log('hizo la consulta', data);
+        if (data.affectedRows === 1) {
+            res.json(1);
+        }
+        else {
+            res.json(0);
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(0);
+    });
 });
